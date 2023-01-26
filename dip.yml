@@ -30,6 +30,11 @@ interaction:
     service: app
     command: bundle exec rubocop
 
+  guard:
+    description: Run red-green-red refactor loop using guard
+    service: app
+    command: bundle exec guard
+
 provision:
   - cp -f lefthook-local.dip_example.yml lefthook-local.yml
   - dip compose down --volumes
