@@ -114,6 +114,24 @@ module Dip
 
       raise Dip::Error, "Could not find dip.yml config" unless finder.exist?
 
+      # check if dotenv is enabled
+      dotenv_enabled = File.read(file_path).split("\n").select {|line| /^dotenv/ =~ line }
+      if dotenv_enabled.size > 0
+        begin
+          require "dotenv"
+          puts "🎉 Dotenv loaded!"
+          _, value = dotenv_enabled.last.split(": ")
+          if ["enabled", "true"].include?(value.strip)
+            Dotenv.load
+          elsif File.exist?(value)
+            Dotenv.load value
+          end
+          # pp ENV
+        rescue LoadError
+          puts "🚨 Dotenv not loaded, ignoring '.env' files"
+        end
+      end
+
       config = self.class.load_yaml(finder.file_path)
 
       unless Gem::Version.new(Dip::VERSION) >= Gem::Version.new(config.fetch(:version))

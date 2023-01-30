@@ -27,6 +27,12 @@ describe Dip::Environment do
       it { is_expected.to include("FOO" => "bar") }
     end
 
+    context "and .env exists" do
+      # before { allow(File).to receive(:read).with(".env").and_return(File.read(fixture_path("dotenv", ".env"))) }
+
+      it { is_expected.to include("COMPOSE_PROJECT_NAME" => "some-value") }
+    end
+
     context "and some vars were interpolated", :env do
       let(:vars) { {"BAZ" => "baz", "FOO" => "foo-${BAR}-$BAZ"} }
       let(:env) { {"BAR" => "bar"} }

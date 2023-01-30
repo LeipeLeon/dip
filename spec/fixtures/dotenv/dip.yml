@@ -1,0 +1,20 @@
+version: '2'
+
+dotenv: enabled
+
+environment:
+  FOO: bar
+
+compose:
+  project_name: $COMPOSE_PROJECT_NAME
+  files:
+    - docker-compose.yml
+
+interaction:
+  app:
+    service: backend
+    subcommands:
+      start:
+        command: exec start
+
+provision: []

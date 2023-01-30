@@ -43,6 +43,29 @@ describe Dip::Commands::Compose do
     end
   end
 
+  context "when .env contains project_name", :env do
+    let(:env) { {"DIP_FILE" => fixture_path("dotenv", "dip.yml")} }
+
+    before do
+      allow_any_instance_of(File).to receive(:open) do |obj|
+        throw obj
+        case obj.to_s
+        when ".env"
+          File.read(fixture_path("dotenv", ".env"))
+        else
+          File.read(obj.to_s)
+        end
+      end
+
+      # puts Dip.config.to_h
+      # allow(File).to receive(:read).with(".env").and_return(File.read(fixture_path("dot.env")))
+
+      cli.start "compose run".shellsplit
+    end
+
+    it { expected_exec("docker-compose", ["--project-name", "some-value", "run"]) }
+  end
+
   context "when config contains project_name with env vars", :config, :env do
     let(:config) { {compose: {project_name: "rocket-$RAILS_ENV"}} }
     let(:env) { {"RAILS_ENV" => "test"} }
