@@ -27,6 +27,22 @@ describe Dip::Commands::Compose do
     it { expected_exec("docker-compose", ["--project-name", "rocket", "run"]) }
   end
 
+  context "when ENV contains project_name", :env do
+    let(:env) { {"COMPOSE_PROJECT_NAME" => "space-test"} }
+
+    before do
+      cli.start "compose run".shellsplit
+    end
+
+    it { expected_exec("docker-compose", ["--project-name", "space-test", "run"]) }
+
+    context "overrule dip.yml configuration", :config, :env do
+      let(:config) { {compose: {project_name: "rocket-test"}} }
+
+      it { expected_exec("docker-compose", ["--project-name", "space-test", "run"]) }
+    end
+  end
+
   context "when config contains project_name with env vars", :config, :env do
     let(:config) { {compose: {project_name: "rocket-$RAILS_ENV"}} }
     let(:env) { {"RAILS_ENV" => "test"} }

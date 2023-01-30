@@ -53,7 +53,7 @@ module Dip
 
       def cli_options
         %i[project_name project_directory].flat_map do |name|
-          next unless (value = config[name])
+          next unless (value = config[name]) || (value = Dip.env["COMPOSE_#{name.upcase}"])
           next unless value.is_a?(String)
 
           value = ::Dip.env.interpolate(value)
