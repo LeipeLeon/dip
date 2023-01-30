@@ -1,6 +1,6 @@
-if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("3.2")
-  warn "\n\n🚨 🚨 🚨  Check for newer version of guard-bundler which is ruby 3.2 compatible 🚨 🚨 🚨\n\n\n➡️  ➡️  ➡️   https://github.com/guard/guard-bundler ⬅️  ⬅️  ⬅️\n\n\n"
-else
+# if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("3.2")
+#   warn "\n\n🚨 🚨 🚨  Check for newer version of guard-bundler which is ruby 3.2 compatible 🚨 🚨 🚨\n\n\n➡️  ➡️  ➡️   https://github.com/guard/guard-bundler ⬅️  ⬅️  ⬅️\n\n\n"
+# else
   guard :bundler do
     require "guard/bundler"
     require "guard/bundler/verify"
@@ -12,7 +12,7 @@ else
     # Assume files are symlinked from somewhere
     files.each { |file| watch(helper.real_path(file)) }
   end
-end
+# end
 
 # Note: The cmd option is now required due to the increasing number of ways
 #       rspec may be run, below are examples of the most common uses.
