@@ -5,7 +5,7 @@ require "dip/cli"
 require "dip/commands/compose"
 
 describe Dip::Commands::Compose do
-  let(:cli) { Dip::CLI }
+  subject(:cli) { Dip::CLI }
 
   context "when execute without extra arguments" do
     before { cli.start "compose run".shellsplit }
