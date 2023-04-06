@@ -52,6 +52,15 @@ describe Dip::Commands::Compose do
     it { expected_exec("docker-compose", ["--project-name", "rocket-test", "run"]) }
   end
 
+  context "when config contains project_name with env vars", :config, :env do
+    let(:config) { {compose: {project_name: "$PROJECT_NAME"}, environment: {PROJECT_NAME: $COMPOSE_PROJECT_NAME}} }
+    let(:env) { {"COMPOSE_PROJECT_NAME" => "space-test"} }
+
+    before { cli.start "compose run".shellsplit }
+
+    it { expected_exec("docker-compose", ["--project-name", "space-test", "run"]) }
+  end
+
   context "when config contains project_directory", :config do
     let(:config) { {compose: {project_directory: "/foo/bar"}} }
 

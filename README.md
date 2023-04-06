@@ -92,6 +92,7 @@ compose:
     - docker/docker-compose.$COMPOSE_EXT.yml
     - docker/docker-compose.$DIP_OS.yml
   project_name: bear
+  # project_name: $COMPOSE_PROJECT_NAME
 
 kubectl:
   namespace: rocket-$STAGE
